@@ -1,8 +1,46 @@
-﻿@{
+﻿@model List<VKR_Poom_Reserving.Models.ReservesViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-right">
+    <h1>Reserves<br></h1>
+</div>
+
+<div>
+    <table class="table table-bordered table-responsive-sm">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Employee</th>
+                <th scope="col">Reserved Room</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reserve in Model)
+            {
+                <tr>
+                    <th scope="row">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                @reserve.Id
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" asp-controller="Home" asp-action="EditReserve" asp-route-id="@reserve.Id">Edit Reserve</a></li>
+                                <li><a class="text-light" asp-controller="Home" asp-action="DeleteReserve" asp-route-id="@reserve.Id">Delete Reserve</a></li>
+                            </ul>
+                        </div>
+
+                    </th>
+                    <td>@reserve.User</td>
+                    <td>@reserve.Room</td>
+                    <td>@reserve.TimeStart</td>
+                    <td>@reserve.TimeEnd</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

@@ -1,0 +1,25 @@
+﻿@model VKR_Poom_Reserving.Models.RoomViewModel
+
+<div class="text-right">
+    <h1>Add Room</h1>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Home" asp-action="AddRoom" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="RoomName"></label>
+                <input asp-for="RoomName" class="form-control" />
+                <span asp-validation-for="RoomName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Add Room</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

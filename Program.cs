@@ -1,18 +1,23 @@
-using Microsoft.AspNetCore.Identity;
+using DomainLayer;
+using LibBase;
 using Microsoft.EntityFrameworkCore;
-using VKR_Poom_Reserving.Data;
-using VKR_Poom_Reserving.Models;
+using VKR_Poom_Reserving;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlite(connectionString));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork<ApplicationContext>>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddMediatR(cfg => {cfg.RegisterServicesFromAssembly(typeof(AddReserveCommand).Assembly);});
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services
+    .AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationContext>();
+    //.AddUserManager<AppUserManager>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -1,0 +1,39 @@
+﻿@model VKR_Poom_Reserving.Models.ReserveViewModel
+
+<div class="text-right">
+    <h1>Add Reserve</h1>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Home" asp-action="AddReserve" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="SelectedUserId"></label>
+                <select asp-for="SelectedUserId" asp-items="Model.Users" class="custom-select"></select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="SelectedRoomId"></label>
+                <select asp-for="SelectedRoomId" asp-items="Model.Rooms" class="custom-select"></select>
+                <span asp-validation-for="SelectedUserId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="StartTime"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="EndTime"></label>
+                <input asp-for="EndTime" class="form-control" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Add Reserve</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
