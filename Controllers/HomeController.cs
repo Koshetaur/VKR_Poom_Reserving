@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using VKR_Poom_Reserving.Models;
 using DomainLayer;
 using AutoMapper;
+using LibBase;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ReserveWebApp.Controllers
 {
@@ -14,14 +17,17 @@ namespace ReserveWebApp.Controllers
 
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        UserManager<User> _userManager;
 
-        public HomeController(IMediator mediator)
+        public HomeController(IMediator mediator, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _mediator = mediator;
             _mapper = new MapperConfiguration(x =>
             {
                 x.CreateMap<ReserveDto, ReservesViewModel>()
                 .ForMember(dst => dst.User, opt => opt.MapFrom(src => $"{src.User.Name} {src.User.Surname}"))
+                .ForMember(dst => dst.UserId, opt => opt.MapFrom(src => src.User.Id))
                 .ForMember(dst => dst.Room, opt => opt.MapFrom(src => src.Room.Name))
                 .ForMember(dst => dst.TimeStart, opt => opt.MapFrom(src => $"{src.TimeStart}"))
                 .ForMember(dst => dst.TimeEnd, opt => opt.MapFrom(src => $"{src.TimeEnd}"));
@@ -95,22 +101,6 @@ namespace ReserveWebApp.Controllers
             return View(result);
         }
 
-        public IActionResult AddUser()
-        {
-            return View(new UserViewModel());
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddUser(UserViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(new UserViewModel());
-            await _mediator.Send(_mapper.Map<AddUserCommand>(model));
-
-            return RedirectToAction(nameof(Index));
-        }
-
         public IActionResult AddRoom()
         {
             return View(new RoomViewModel());
@@ -140,6 +130,7 @@ namespace ReserveWebApp.Controllers
             if (!ModelState.IsValid)
                 return View(await GetReserveViewModel());
 
+            model.SelectedUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _mediator.Send(_mapper.Map<AddReserveCommand>(model));
 
             return RedirectToAction(nameof(Index));
@@ -148,6 +139,9 @@ namespace ReserveWebApp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> EditReserve(int id)
         {
+            var model = await GetReserveViewModel(id);
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != model.SelectedUserId)
+                return RedirectToAction(nameof(Index));
             return View(await GetReserveViewModel(id));
         }
 
@@ -158,6 +152,7 @@ namespace ReserveWebApp.Controllers
             if (!ModelState.IsValid)
                 return View(await GetReserveViewModel(id));
 
+            model.SelectedUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _mediator.Send(_mapper.Map<EditReserveCommand>(model));
 
             return RedirectToAction(nameof(Index));

@@ -1,0 +1,23 @@
+﻿@page
+@model ResetAuthenticatorModel
+@{
+    ViewData["Title"] = "Переподключение приложения-аутентификатора";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h4>@ViewData["Title"]</h4>
+<div class="alert alert-warning" role="alert">
+    <p>
+        <span class="glyphicon glyphicon-warning-sign"></span>
+        <strong>Если вы изменили ключ подключения, приложение-аутентификатор не сможет использовать его для подключения.</strong>
+    </p>
+    <p>
+        Если вы не завершите настройку приложения, вы потеряете доступ к аккаунту.
+    </p>
+</div>
+<div>
+    <form id="reset-authenticator-form" method="post">
+        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Изменить ключ подключения</button>
+    </form>
+</div>

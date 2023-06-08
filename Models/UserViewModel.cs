@@ -6,15 +6,15 @@ namespace VKR_Poom_Reserving.Models
     public class UserViewModel
     {
         [Required]
-        [Remote("VerifyName", "Home", ErrorMessage = "Name is not valid.")]
+        [Remote("VerifyName", "Home", ErrorMessage = "Имя не поддерживается.")]
         [DataType(DataType.Text)]
-        [Display(Name = "Name")]
+        [Display(Name = "Имя")]
         public string UserName { get; set; }
 
         [Required]
-        [Remote("VerifySurname", "Home", ErrorMessage = "Surname is not valid.")]
+        [Remote("VerifySurname", "Home", ErrorMessage = "Фамилия не поддерживается.")]
         [DataType(DataType.Text)]
-        [Display(Name = "Surname")]
+        [Display(Name = "Фамилия")]
         public string UserSurname { get; set; }
     }
 }

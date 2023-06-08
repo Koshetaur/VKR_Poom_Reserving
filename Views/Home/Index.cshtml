@@ -1,10 +1,11 @@
-﻿@model List<VKR_Poom_Reserving.Models.ReservesViewModel>
+﻿@using System.Security.Claims;
+@model List<VKR_Poom_Reserving.Models.ReservesViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-right">
-    <h1>Reserves<br></h1>
+    <h4>Расписание переговорных комнат на текущую неделю<br></h4>
 </div>
 
 <div>
@@ -12,10 +13,10 @@
         <thead>
             <tr>
                 <th scope="col"></th>
-                <th scope="col">Employee</th>
-                <th scope="col">Reserved Room</th>
-                <th scope="col">Start Time</th>
-                <th scope="col">End Time</th>
+                <th scope="col">Сотрудник</th>
+                <th scope="col">Переговорная</th>
+                <th scope="col">Время начала</th>
+                <th scope="col">Время окончания</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +24,14 @@
             {
                 <tr>
                     <th scope="row">
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                @reserve.Id
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" asp-controller="Home" asp-action="EditReserve" asp-route-id="@reserve.Id">Edit Reserve</a></li>
-                                <li><a class="text-light" asp-controller="Home" asp-action="DeleteReserve" asp-route-id="@reserve.Id">Delete Reserve</a></li>
-                            </ul>
-                        </div>
-
+                        @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == reserve.UserId)
+                        {
+                            <a class="nav-link" asp-controller="Home" asp-action="EditReserve" asp-route-id="@reserve.Id">@reserve.Id</a>
+                        }
+                        else
+                        {
+                            @reserve.Id
+                        }
                     </th>
                     <td>@reserve.User</td>
                     <td>@reserve.Room</td>

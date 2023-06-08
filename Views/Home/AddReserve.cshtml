@@ -1,17 +1,15 @@
 ﻿@model VKR_Poom_Reserving.Models.ReserveViewModel
+@{
+    ViewData["Title"] = "Зарезервировать комнату";
+}
 
-<div class="text-right">
-    <h1>Add Reserve</h1>
-</div>
+<h4>@ViewData["Title"]</h4>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Home" asp-action="AddReserve" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="mb-3">
-                <label asp-for="SelectedUserId"></label>
-                <select asp-for="SelectedUserId" asp-items="Model.Users" class="custom-select"></select>
-            </div>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="mb-3">
                 <label asp-for="SelectedRoomId"></label>
                 <select asp-for="SelectedRoomId" asp-items="Model.Rooms" class="custom-select"></select>
@@ -27,12 +25,11 @@
                 <input asp-for="EndTime" class="form-control" />
                 <span asp-validation-for="EndTime" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Add Reserve</button>
-            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Сохранить</button>
         </form>
     </div>
 </div>
+
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

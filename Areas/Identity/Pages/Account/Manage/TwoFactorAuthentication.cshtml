@@ -1,0 +1,63 @@
+﻿@page
+@using Microsoft.AspNetCore.Http.Features
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Двухфакторная аутентификация (2FA)";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h4>@ViewData["Title"]</h4>
+@{
+    var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+    @if (consentFeature?.CanTrack ?? true)
+    {
+        @if (Model.Is2faEnabled)
+        {
+            if (Model.RecoveryCodesLeft == 0)
+            {
+                <div class="alert alert-danger">
+                    <strong>У вас нет кодов восстановления.</strong>
+                    <p>Вы должны <a asp-page="./GenerateRecoveryCodes">сгенерировать коды восстановления</a> чтобы вы могли восстановить доступ к аккаунту.</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft == 1)
+            {
+                <div class="alert alert-danger">
+                    <strong>У вас остался 1 код восстановления.</strong>
+                    <p>Вы можете <a asp-page="./GenerateRecoveryCodes">сгенерировать новые коды восстановления</a>.</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft <= 3)
+            {
+                <div class="alert alert-warning">
+                    <strong>У вас осталось @Model.RecoveryCodesLeft кодов восстановления.</strong>
+                    <p>Вы можете <a asp-page="./GenerateRecoveryCodes">сгенерировать коды восстановления</a>.</p>
+                </div>
+            }
+            <a asp-page="./Disable2fa" class="btn btn-primary">Отключить 2FA</a>
+            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">Новые коды восстановления</a>
+        }
+
+        @if (!Model.HasAuthenticator)
+        {
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Добавить аутентификатор</a>
+        }
+        else
+        {
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Установить аутентификатор</a>
+            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">Переустановить аутентификатор</a>
+        }
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <strong>Cookie и политика конфиденциальности не были приняты.</strong>
+            <p>Вам необходимо принять их для подключения двухфакторной аутентификации.</p>
+        </div>
+    }
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
