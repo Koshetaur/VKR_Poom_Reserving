@@ -36,7 +36,7 @@ namespace VKR_Poom_Reserving.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Почтовый адрес успешно подтверждён." : "Ошибка при подтверждении почты.";
+            StatusMessage = result.Succeeded ? "Аккаунт успешно подтверждён." : "Ошибка при подтверждении аккаунта.";
             return Page();
         }
     }

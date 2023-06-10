@@ -32,8 +32,10 @@ namespace VKR_Poom_Reserving.Areas.Identity.Pages.Account.Manage
         public InputModel Input { get; set; }
         public class InputModel
         {
+            [Required]
             [Display(Name = "Имя")]
             public string Name { get; set; }
+            [Required]
             [Display(Name = "Фамилия")]
             public string SurName { get; set; }
         }

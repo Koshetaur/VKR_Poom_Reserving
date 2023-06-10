@@ -98,8 +98,8 @@ namespace VKR_Poom_Reserving.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Подтвердите почтовый адрес.",
-                        $"Чтобы подтвердить почтовый адрес <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите сюда.</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Подтвердите аккаунт.",
+                        $"Чтобы подтвердить аккаунт <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>нажмите сюда.</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

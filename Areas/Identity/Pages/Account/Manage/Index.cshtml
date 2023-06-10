@@ -16,11 +16,11 @@
                 <label asp-for="Username" class="form-label">Логин</label>
             </div>          
             <div class="form-floating mb-3">
-                <input asp-for="Input.Name" class="form-control" />
+                <input asp-for="Input.Name" class="form-control" aria-required="true" />
                 <label asp-for="Input.Name">Имя</label>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.SurName" class="form-control" />
+                <input asp-for="Input.SurName" class="form-control" aria-required="true" />
                 <label asp-for="Input.SurName">Фамилия</label>
             </div>
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Сохранить</button>
