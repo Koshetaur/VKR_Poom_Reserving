@@ -1,8 +1,6 @@
 using DomainLayer;
 using LibBase;
 using Microsoft.EntityFrameworkCore;
-using VKR_Poom_Reserving;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

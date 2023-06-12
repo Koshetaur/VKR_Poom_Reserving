@@ -17,11 +17,9 @@ namespace ReserveWebApp.Controllers
 
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        UserManager<User> _userManager;
 
-        public HomeController(IMediator mediator, UserManager<User> userManager)
+        public HomeController(IMediator mediator)
         {
-            _userManager = userManager;
             _mediator = mediator;
             _mapper = new MapperConfiguration(x =>
             {
@@ -31,9 +29,6 @@ namespace ReserveWebApp.Controllers
                 .ForMember(dst => dst.Room, opt => opt.MapFrom(src => src.Room.Name))
                 .ForMember(dst => dst.TimeStart, opt => opt.MapFrom(src => $"{src.TimeStart}"))
                 .ForMember(dst => dst.TimeEnd, opt => opt.MapFrom(src => $"{src.TimeEnd}"));
-                x.CreateMap<UserViewModel, AddUserCommand>()
-                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.UserName))
-                .ForMember(dst => dst.Surname, opt => opt.MapFrom(src => src.UserSurname));
                 x.CreateMap<RoomViewModel, AddRoomCommand>()
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.RoomName));
                 x.CreateMap<ReserveViewModel, AddReserveCommand>()
