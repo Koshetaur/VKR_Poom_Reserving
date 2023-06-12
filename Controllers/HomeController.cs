@@ -75,15 +75,10 @@ namespace ReserveWebApp.Controllers
         }
 
         [AcceptVerbs("GET", "POST")]
-        public IActionResult VerifySurname([RegularExpression(@"^[^\-][\p{L}\-]*[^\-]$")] string userSurname)
+        public IActionResult VerifyTime(DateTime StartTime, DateTime EndTime)
         {
-            return Json(ModelState.IsValid);
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        public IActionResult VerifyName([RegularExpression(@"^[\p{L}]*$")] string userName)
-        {
-            return Json(ModelState.IsValid);
+            var result = StartTime < EndTime;
+            return Json(result);
         }
 
         #endregion

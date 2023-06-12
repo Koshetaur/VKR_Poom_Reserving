@@ -11,7 +11,7 @@ namespace VKR_Poom_Reserving.Models
         public string? SelectedUserId { get; set; }
         public SelectList? Users { get; set; }
 
-        [Remote(action: "VerifyReserve", controller: "Home", AdditionalFields = nameof(StartTime) + "," + nameof(EndTime) + "," + nameof(Id), ErrorMessage = "Эта переговорная уже занята на данное время.")]
+        [Remote(action: "VerifyReserve", controller: "Home", AdditionalFields = nameof(StartTime) + "," + nameof(EndTime) + "," + nameof(Id))]
         [Display(Name = "Переговорная")]
         public int SelectedRoomId { get; set; }
         public SelectList? Rooms { get; set; }
@@ -20,7 +20,7 @@ namespace VKR_Poom_Reserving.Models
         [Display(Name = "Время начала")]
         public DateTime StartTime { get; set; }
         [Display(Name = "Время окончания")]
-        [Remote(action: "VerifyReserve", controller: "Home", AdditionalFields = nameof(StartTime) + "," + nameof(SelectedRoomId) + "," + nameof(Id), ErrorMessage = "Эта переговорная уже занята на данное время.")]
+        [Remote(action: "VerifyTime", controller: "Home", AdditionalFields = nameof(StartTime), ErrorMessage = "Время окончания резерва не должно превышать время начала.")]
         public DateTime EndTime { get; set; }
 
         [HiddenInput]
